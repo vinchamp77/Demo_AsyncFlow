@@ -1,45 +1,44 @@
 package vtsen.hashnode.dev.asyncflowdemo.ui.livedata
 
-import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewmodel.compose.viewModel
 import vtsen.hashnode.dev.asyncflowdemo.ui.common.TextWidget
-import vtsen.hashnode.dev.asyncflowdemo.ui.common.TransparentActivity
+
+const val tag = "LiveDataDebug"
 
 @Composable
 fun LiveDataScreen() {
     val viewModel: LiveDataViewModel = viewModel()
     val manualObserveLiveDataState:MutableState<Int?> = remember { mutableStateOf(null) }
-    val observeAsStateLiveData = viewModel.liveData.myObserveAsState(initial = null)
+    val observeAsStateLiveData = viewModel.liveData.observeAsStateWithLogging(initial = null)
 
-    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val liveDataObserver = remember {
         Observer<Int> { value ->
+            Log.d(tag, "[ManualObserver]: Assigning $value to manualObserveLiveDataState.value")
             manualObserveLiveDataState.value = value
         }
     }
 
     Column {
         TextWidget(
-            title="manual observe",
+            title="[ManualObserver]",
             text = manualObserveLiveDataState.value.toString(),
-            tag = "LiveDataDebug",
+            tag = tag,
         )
 
         TextWidget(
-            title="observe as state",
+            title="[ObserveAsState]",
             text = observeAsStateLiveData.value.toString(),
-            tag = "LiveDataDebug",
+            tag = tag,
         )
 
         Button(onClick = {
@@ -55,59 +54,57 @@ fun LiveDataScreen() {
         }
 
         Button(onClick = {
+            viewModel.streamLiveDataValue(fast = true)
+        }) {
+            Text(text = "Stream LiveData setValue [FAST]")
+        }
+
+        Button(onClick = {
+            viewModel.streamLiveDataPostValue(fast = true)
+        }) {
+            Text(text = "Stream LiveData postValue [FAST]")
+        }
+
+        Button(onClick = {
             viewModel.cancelStreaming()
         }) {
             Text(text = "Cancel Streaming")
         }
 
         Button(onClick = {
-            Log.d("LiveDataDebug", "hasActiveObservers: ${viewModel.liveData.hasActiveObservers()}")
-            Log.d("LiveDataDebug", "hasObservers: ${viewModel.liveData.hasObservers()}")
+            Log.d(tag, "hasActiveObservers: ${viewModel.liveData.hasActiveObservers()}")
+            Log.d(tag, "hasObservers: ${viewModel.liveData.hasObservers()}")
 
-            Log.d("LiveDataDebug", "Start observing...")
+            Log.d("LiveDataDebug", "[Manual Observe]: Start observing...")
             viewModel.liveData.observe(lifecycleOwner, liveDataObserver)
         }) {
             Text(text = "Manually Start Observe LiveData")
         }
 
         Button(onClick = {
-
-            Log.d("LiveDataDebug", "hasActiveObservers: ${viewModel.liveData.hasActiveObservers()}")
-            Log.d("LiveDataDebug", "hasObservers: ${viewModel.liveData.hasObservers()}")
-            Log.d("LiveDataDebug", "Remove observer")
+            Log.d(tag, "hasActiveObservers: ${viewModel.liveData.hasActiveObservers()}")
+            Log.d(tag, "hasObservers: ${viewModel.liveData.hasObservers()}")
+            Log.d(tag, "[Manual Observer]: Remove observer")
             viewModel.liveData.removeObserver(liveDataObserver)
         }) {
             Text(text = "Manually Remove Observer")
-        }
-
-        Button(onClick = {
-            Thread.sleep(3000)
-        }) {
-            Text(text = "Simulate Busy UI")
-        }
-
-        Button(onClick = {
-            context.startActivity(
-                Intent(context, TransparentActivity::class.java)
-            )
-        }) {
-            Text(text = "Pause Activity")
         }
     }
 }
 
 @Composable
-fun <R, T: R> LiveData<T>.myObserveAsState(initial: R): State<R> {
+fun <R, T: R> LiveData<T>.observeAsStateWithLogging(initial: R): State<R> {
     val lifecycleOwner = LocalLifecycleOwner.current
     val state = remember { mutableStateOf(initial) }
     DisposableEffect(this, lifecycleOwner) {
         val observer = Observer<T> {
+            Log.d(tag, "[ObserveAsState]: Assigning $it to state.value")
             state.value = it
         }
-        Log.d("LiveDataDebug", "Start observing...")
+        Log.d(tag, "[ObserveAsState]: Start observing...")
         observe(lifecycleOwner, observer)
         onDispose {
-            Log.d("LiveDataDebug", "Remove observer")
+            Log.d(tag, "[ObserveAsState]: Remove observer")
             removeObserver(observer)
         }
     }

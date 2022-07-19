@@ -13,23 +13,39 @@ class LiveDataViewModel: ViewModel() {
     private val _liveData = MutableLiveData<Int>()
     val liveData: LiveData<Int> = _liveData
 
-    fun streamLiveDataValue() {
+    init {
+        Log.d(tag, "[ViewModel]: created!")
+    }
+
+    fun streamLiveDataValue(fast:Boolean = false) {
         cancelStreaming()
         job = viewModelScope.launch {
             repeat(10000) { value ->
-                delay(1000)
-                Log.d("LiveDataDebug", "setValue: $value")
+                if (fast) {
+                    delay(1)
+                    Log.d(tag, "[ViewModel]: setValue with 0.001s: $value")
+
+                } else {
+                    delay(1000)
+                    Log.d(tag, "[ViewModel]: setValue with 1s: $value")
+                }
                 _liveData.value = value
             }
         }
     }
 
-    fun streamLiveDataPostValue() {
+    fun streamLiveDataPostValue(fast:  Boolean = false) {
         cancelStreaming()
         job = viewModelScope.launch(Dispatchers.IO) {
             repeat(10000) { value ->
-                delay(1000)
-                Log.d("LiveDataDebug", "postValue: $value")
+                if (fast) {
+                    delay(1)
+                    Log.d(tag, "[ViewModel]: postValue with 0.001s: $value")
+
+                } else {
+                    delay(1000)
+                    Log.d(tag, "[ViewModel]: postValue with 1s: $value")
+                }
                 _liveData.postValue(value)
             }
         }
@@ -37,5 +53,10 @@ class LiveDataViewModel: ViewModel() {
 
     fun cancelStreaming() {
         job?.cancel()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d(tag, "[ViewModel]: destroyed")
     }
 }
