@@ -6,9 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
+import vtsen.hashnode.dev.asyncflowdemo.ui.common.tag
 
 class LiveDataViewModel: ViewModel() {
-    var job: Job? = null
+    private var job: Job? = null
 
     private val _liveData = MutableLiveData<Int>()
     val liveData: LiveData<Int> = _liveData

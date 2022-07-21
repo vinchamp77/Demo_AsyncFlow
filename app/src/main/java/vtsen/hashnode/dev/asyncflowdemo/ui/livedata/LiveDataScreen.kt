@@ -3,6 +3,7 @@ package vtsen.hashnode.dev.asyncflowdemo.ui.livedata
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -10,8 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewmodel.compose.viewModel
 import vtsen.hashnode.dev.asyncflowdemo.ui.common.TextWidget
-
-const val tag = "LiveDataDebug"
+import vtsen.hashnode.dev.asyncflowdemo.ui.common.tag
 
 @Composable
 fun LiveDataScreen() {
@@ -40,6 +40,8 @@ fun LiveDataScreen() {
             text = observeAsStateLiveData.value.toString(),
             tag = tag,
         )
+
+        Divider()
 
         Button(onClick = {
             viewModel.streamLiveDataValue()
@@ -71,26 +73,32 @@ fun LiveDataScreen() {
             Text(text = "Cancel Streaming")
         }
 
-        Button(onClick = {
-            Log.d(tag, "hasActiveObservers: ${viewModel.liveData.hasActiveObservers()}")
-            Log.d(tag, "hasObservers: ${viewModel.liveData.hasObservers()}")
+        Divider()
 
-            Log.d("LiveDataDebug", "[Manual Observe]: Start observing...")
+        Button(onClick = {
+            Log.d(tag, "[Manual Observer]: Start observing...")
             viewModel.liveData.observe(lifecycleOwner, liveDataObserver)
         }) {
             Text(text = "Manually Start Observe LiveData")
         }
 
         Button(onClick = {
-            Log.d(tag, "hasActiveObservers: ${viewModel.liveData.hasActiveObservers()}")
-            Log.d(tag, "hasObservers: ${viewModel.liveData.hasObservers()}")
             Log.d(tag, "[Manual Observer]: Remove observer")
             viewModel.liveData.removeObserver(liveDataObserver)
         }) {
             Text(text = "Manually Remove Observer")
         }
+
+        Button(onClick = {
+            Log.d(tag, "hasActiveObservers: ${viewModel.liveData.hasActiveObservers()}")
+            Log.d(tag, "hasObservers: ${viewModel.liveData.hasObservers()}")
+        }) {
+            Text(text = "Print LiveData Observers Status")
+        }
     }
 }
+
+
 
 @Composable
 fun <R, T: R> LiveData<T>.observeAsStateWithLogging(initial: R): State<R> {
