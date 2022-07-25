@@ -50,21 +50,21 @@ fun LiveDataScreen() {
         }
 
         Button(onClick = {
+            viewModel.streamLiveDataValueBackgroundFetch()
+        }) {
+            Text(text = "Stream LiveData setValue - background fetch")
+        }
+
+        Button(onClick = {
             viewModel.streamLiveDataPostValue()
         }) {
-            Text(text = "Stream LiveData postValue")
+            Text(text = "Stream LiveData postValue - background")
         }
 
         Button(onClick = {
-            viewModel.streamLiveDataValue(fast = true)
+            viewModel.streamLiveDataPostValue()
         }) {
-            Text(text = "Stream LiveData setValue [FAST]")
-        }
-
-        Button(onClick = {
-            viewModel.streamLiveDataPostValue(fast = true)
-        }) {
-            Text(text = "Stream LiveData postValue [FAST]")
+            Text(text = "Stream LiveData postValue - main")
         }
 
         Button(onClick = {
