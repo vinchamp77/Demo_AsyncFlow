@@ -20,12 +20,8 @@ class LiveDataActivity : ComponentActivity() {
         }
     }
 
-
-
     override fun onDestroy() {
         super.onDestroy()
-
         Log.d(tag, "Activity onDestroy() called")
-        Thread.sleep(3000)
     }
 }

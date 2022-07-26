@@ -24,6 +24,5 @@ class FlowActivity : ComponentActivity() {
         super.onDestroy()
 
         Log.d(tag, "Activity onDestroy() called")
-        Thread.sleep(3000)
     }
 }

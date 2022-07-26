@@ -16,17 +16,23 @@ import vtsen.hashnode.dev.asyncflowdemo.ui.common.tag
 @Composable
 fun LiveDataScreen() {
     val viewModel: LiveDataViewModel = viewModel()
-    val manualObserveLiveDataState:MutableState<Int?> = remember { mutableStateOf(null) }
-    val observeAsStateLiveData = viewModel.liveData.observeAsStateWithLogging(initial = null)
-
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    val manualObserveLiveDataState:MutableState<Int?> = remember { mutableStateOf(null) }
     val liveDataObserver = remember {
         Observer<Int> { value ->
             Log.d(tag, "[ManualObserver]: Assigning $value to manualObserveLiveDataState.value")
             manualObserveLiveDataState.value = value
         }
     }
+
+    var observerAsState by remember { mutableStateOf(false)}
+    var observeAsStateLiveData: MutableState<Int?>? = null
+
+    if(observerAsState) {
+        observeAsStateLiveData = viewModel.liveData.observeAsStateWithLogging(initial = null) as MutableState<Int?>
+    }
+
 
     Column {
         TextWidget(
@@ -37,7 +43,7 @@ fun LiveDataScreen() {
 
         TextWidget(
             title="[ObserveAsState]",
-            text = observeAsStateLiveData.value.toString(),
+            text = observeAsStateLiveData?.value.toString(),
             tag = tag,
         )
 
@@ -87,6 +93,12 @@ fun LiveDataScreen() {
             viewModel.liveData.removeObserver(liveDataObserver)
         }) {
             Text(text = "Manually Remove Observer")
+        }
+
+        Button(onClick = {
+            observerAsState = true
+        }) {
+            Text(text = "Observe As State")
         }
 
         Button(onClick = {
