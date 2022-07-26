@@ -25,12 +25,11 @@ class LiveDataViewModel: ViewModel() {
             repeat(10000) { value ->
                 if (fast) {
                     delay(1)
-                    Log.d(tag, "[ViewModel]: setValue with 0.001s: $value")
 
                 } else {
                     delay(1000)
-                    Log.d(tag, "[ViewModel]: setValue with 1s: $value")
                 }
+                Log.d(tag, "[ViewModel]: setValue to $value")
                 _liveData.value = value
             }
         }
@@ -67,12 +66,11 @@ class LiveDataViewModel: ViewModel() {
             repeat(10000) { value ->
                 if (fast) {
                     delay(1)
-                    Log.d(tag, "[ViewModel]: postValue with 0.001s: $value")
 
                 } else {
                     delay(1000)
-                    Log.d(tag, "[ViewModel]: postValue with 1s: $value")
                 }
+                Log.d(tag, "[ViewModel]: postValue with $value")
                 _liveData.postValue(value)
             }
         }
