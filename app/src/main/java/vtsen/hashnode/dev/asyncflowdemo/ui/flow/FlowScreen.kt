@@ -3,6 +3,7 @@ package vtsen.hashnode.dev.asyncflowdemo.ui.flow
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -17,12 +18,17 @@ import kotlin.coroutines.EmptyCoroutineContext
 fun FlowScreen() {
     val viewModel: FlowViewModel = viewModel()
 
-    val flowCollectAsState = viewModel.flow.collectAsStateWithLogging(initial = null)
+    var flowCollectAsState : State<Int?>? = null
+    var startCollectingAsState by remember { mutableStateOf(false)}
+
+    if(startCollectingAsState) {
+        flowCollectAsState = viewModel.flow.collectAsStateWithLogging(initial = null)
+    }
     
     Column {
         TextWidget(
             title="[ViewModelCollect]",
-            text = flowCollectAsState.value.toString(),
+            text = flowCollectAsState?.value.toString(),
             tag = tag,
         )
 
@@ -31,6 +37,8 @@ fun FlowScreen() {
             text = viewModel.state.value.toString(),
             tag = tag,
         )
+
+        Divider()
 
         Button(onClick = {
             viewModel.collectFlow()
@@ -42,6 +50,12 @@ fun FlowScreen() {
             viewModel.cancelCollectFlow()
         }) {
             Text(text = "[ViewModel] Cancel Collect Flow")
+        }
+
+        Button(onClick = {
+            startCollectingAsState = true
+        }) {
+            Text(text = "Start collectAsState()")
         }
     }
 }
@@ -59,6 +73,7 @@ fun <T:R, R> Flow<T>.collectAsStateWithLogging(
         }
     } else withContext(context) {
         collect {
+            Log.d(tag, "[CollectAsState]: Assigning $it to state.value")
             value = it
         }
     }

@@ -26,11 +26,11 @@ fun LiveDataScreen() {
         }
     }
 
-    var observerAsState by remember { mutableStateOf(false)}
-    var observeAsStateLiveData: MutableState<Int?>? = null
+    var startObserveAsState by remember { mutableStateOf(false)}
+    var liveDataObserveAsState: MutableState<Int?>? = null
 
-    if(observerAsState) {
-        observeAsStateLiveData = viewModel.liveData.observeAsStateWithLogging(initial = null) as MutableState<Int?>
+    if(startObserveAsState) {
+        liveDataObserveAsState = viewModel.liveData.observeAsStateWithLogging(initial = null) as MutableState<Int?>
     }
 
 
@@ -43,7 +43,7 @@ fun LiveDataScreen() {
 
         TextWidget(
             title="[ObserveAsState]",
-            text = observeAsStateLiveData?.value.toString(),
+            text = liveDataObserveAsState?.value.toString(),
             tag = tag,
         )
 
@@ -52,25 +52,25 @@ fun LiveDataScreen() {
         Button(onClick = {
             viewModel.streamLiveDataValue()
         }) {
-            Text(text = "Stream LiveData setValue")
+            Text(text = "Stream setValue() - main thread")
         }
 
         Button(onClick = {
             viewModel.streamLiveDataValueBackgroundFetch()
         }) {
-            Text(text = "Stream LiveData setValue - background fetch")
+            Text(text = "Stream setValue() - background fetch")
         }
 
         Button(onClick = {
             viewModel.streamLiveDataPostValue()
         }) {
-            Text(text = "Stream LiveData postValue - background")
+            Text(text = "Stream postValue() - background thread")
         }
 
         Button(onClick = {
             viewModel.streamLiveDataPostValue()
         }) {
-            Text(text = "Stream LiveData postValue - main")
+            Text(text = "Stream postValue() - main thread")
         }
 
         Button(onClick = {
@@ -96,7 +96,7 @@ fun LiveDataScreen() {
         }
 
         Button(onClick = {
-            observerAsState = true
+            startObserveAsState = true
         }) {
             Text(text = "Observe As State")
         }
