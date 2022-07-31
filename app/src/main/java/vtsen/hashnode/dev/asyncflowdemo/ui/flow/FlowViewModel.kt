@@ -28,9 +28,9 @@ class FlowViewModel: ViewModel() {
     fun collectFlow() {
         cancelCollectFlow()
         job = viewModelScope.launch {
-            flow.collect {
-                Log.d(tag, "[ViewModelCollect]: Assigning $it to _state.value")
-                _state.value = it
+            flow.collect { value ->
+                Log.d(tag, "[ViewModelCollect]: Assigning $value to _state.value")
+                _state.value = value
             }
         }
     }
