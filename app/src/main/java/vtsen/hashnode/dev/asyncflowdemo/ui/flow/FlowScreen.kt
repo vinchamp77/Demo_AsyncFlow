@@ -6,6 +6,8 @@ import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -18,6 +20,9 @@ import kotlin.coroutines.EmptyCoroutineContext
 fun FlowScreen() {
     val viewModel: FlowViewModel = viewModel()
 
+    val lifeCycleScope = LocalLifecycleOwner.current.lifecycleScope
+    val lifeCycle = LocalLifecycleOwner.current.lifecycle
+
     var flowCollectAsState : State<Int?>? = null
     var startCollectingAsState by remember { mutableStateOf(false)}
 
@@ -27,13 +32,13 @@ fun FlowScreen() {
     
     Column {
         TextWidget(
-            title="[ViewModelCollect]",
+            title="[CollectAsState]",
             text = flowCollectAsState?.value.toString(),
             tag = tag,
         )
 
         TextWidget(
-            title="[CollectAsState]",
+            title="[ViewModelState]",
             text = viewModel.state.value.toString(),
             tag = tag,
         )
@@ -41,9 +46,21 @@ fun FlowScreen() {
         Divider()
 
         Button(onClick = {
-            viewModel.collectFlow()
+            viewModel.viewModelScopeCollectFlow()
         }) {
-            Text(text = "[ViewModel] Collect Flow")
+            Text(text = "[viewModelScope] Collect Flow")
+        }
+
+        Button(onClick = {
+            viewModel.launchWhenStartedCollectFlow(lifeCycleScope)
+        }) {
+            Text(text = "[launchWhenStarted] Collect Flow")
+        }
+
+        Button(onClick = {
+            viewModel.repeatOnCycleStartedCollectFlow(lifeCycleScope, lifeCycle)
+        }) {
+            Text(text = "[repeatOnCycleStarted] Collect Flow")
         }
 
         Button(onClick = {
