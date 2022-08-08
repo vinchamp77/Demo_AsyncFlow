@@ -22,7 +22,6 @@ class FlowActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-
-        Log.d(tag, "Activity onDestroy() called")
+        Log.d(tag, "Activity onDestroy() called, isFinishing: $isFinishing")
     }
 }

@@ -17,6 +17,7 @@ class FlowViewModel: ViewModel() {
     val flow: Flow<Int> = flow {
         repeat(10000) { value ->
             delay(1000)
+            Log.d(tag, "[Flow]: emitting $value")
             emit(value)
         }
     }

@@ -46,6 +46,12 @@ fun FlowScreen() {
         Divider()
 
         Button(onClick = {
+            startCollectingAsState = true
+        }) {
+            Text(text = "[collectAsState]")
+        }
+
+        Button(onClick = {
             viewModel.viewModelScopeCollectFlow()
         }) {
             Text(text = "[viewModelScope] Collect Flow")
@@ -61,18 +67,6 @@ fun FlowScreen() {
             viewModel.repeatOnCycleStartedCollectFlow(lifeCycleScope, lifeCycle)
         }) {
             Text(text = "[repeatOnCycleStarted] Collect Flow")
-        }
-
-        Button(onClick = {
-            viewModel.cancelCollectFlow()
-        }) {
-            Text(text = "[ViewModel] Cancel Collect Flow")
-        }
-
-        Button(onClick = {
-            startCollectingAsState = true
-        }) {
-            Text(text = "Start collectAsState()")
         }
     }
 }
