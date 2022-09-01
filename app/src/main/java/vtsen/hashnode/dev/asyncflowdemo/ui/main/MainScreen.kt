@@ -6,6 +6,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import vtsen.hashnode.dev.asyncflowdemo.ui.channel.ChannelActivity
 import vtsen.hashnode.dev.asyncflowdemo.ui.flow.FlowActivity
 import vtsen.hashnode.dev.asyncflowdemo.ui.livedata.LiveDataActivity
 import vtsen.hashnode.dev.asyncflowdemo.ui.theme.AsyncFlowDemoAppTheme
@@ -28,6 +29,14 @@ fun MainScreen() {
             )
         }) {
             Text(text = "Flow Experiment")
+        }
+
+        Button(onClick = {
+            context.startActivity(
+                Intent(context, ChannelActivity::class.java)
+            )
+        }) {
+            Text(text = "Channel Experiment")
         }
     }
 }
