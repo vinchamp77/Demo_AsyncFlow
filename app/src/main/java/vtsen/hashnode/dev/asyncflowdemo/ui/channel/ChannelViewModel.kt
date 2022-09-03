@@ -4,60 +4,71 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import vtsen.hashnode.dev.asyncflowdemo.ui.common.tag
 
 class ChannelViewModel: ViewModel() {
 
-    private var job: Job? = null
+    private var sendJob: Job? = null
+    private var receiveJob: Job? = null
+    private var anotherReceiveJob: Job? = null
 
-    val flow: Flow<Int> = flow {
-        repeat(10000) { value ->
-            delay(1000)
-            Log.d(tag, "[Flow]: emitting $value")
-            emit(value)
-        }
-    }
+    private val channel = Channel<Int>()
 
     private val _state: MutableState<Int?> = mutableStateOf(null)
     val state: State<Int?> = _state
 
-    fun viewModelScopeCollectFlow() {
-        cancelCollectFlow()
-        job = viewModelScope.launch {
-            flow.collect { value ->
-                Log.d(tag, "[viewModelScope]: Assigning $value to _state.value")
+    private val _anotherState: MutableState<Int?> = mutableStateOf(null)
+    val anotherState: State<Int?> = _anotherState
+
+
+    fun channelSend() {
+        cancelChannelSend()
+        sendJob = viewModelScope.launch {
+            repeat(10000) { value ->
+                delay(1000)
+                Log.d(tag, "[Channel]: send $value")
+                channel.send(value)
+            }
+        }
+    }
+
+    fun cancelChannelSend() {
+        sendJob?.cancel()
+    }
+
+    fun channelReceive() {
+        cancelChannelReceive()
+        receiveJob = viewModelScope.launch {
+            while(true) {
+                val value = channel.receive()
+                Log.d(tag, "[Channel]: receive $value")
                 _state.value = value
             }
         }
     }
 
-    fun launchWhenStartedCollectFlow(lifeCycleScope: LifecycleCoroutineScope) {
-        cancelCollectFlow()
-        job = lifeCycleScope.launchWhenStarted {
-            flow.collect { value ->
-                Log.d(tag, "[launchWhenStarted]: Assigning $value to _state.value")
-                _state.value = value
+    fun cancelChannelReceive() {
+        receiveJob?.cancel()
+    }
+
+    fun channelAnotherReceive() {
+        cancelChannelAnotherReceive()
+        anotherReceiveJob = viewModelScope.launch {
+            while(true) {
+                val value = channel.receive()
+                Log.d(tag, "[Channel]: another receive $value")
+                _anotherState.value = value
             }
         }
     }
 
-    fun repeatOnCycleStartedCollectFlow(lifeCycleScope: LifecycleCoroutineScope, lifeCycle: Lifecycle) {
-        cancelCollectFlow()
-        job = lifeCycleScope.launch {
-            lifeCycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                flow.collect { value ->
-                    Log.d(tag, "[repeatOnCycleStarted]: Assigning $value to _state.value")
-                    _state.value = value
-                }
-            }
-        }
-    }
-
-    fun cancelCollectFlow() {
-        job?.cancel()
+    fun cancelChannelAnotherReceive() {
+        anotherReceiveJob?.cancel()
     }
 }
