@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import vtsen.hashnode.dev.asyncflowdemo.ui.channel.ChannelActivity
 import vtsen.hashnode.dev.asyncflowdemo.ui.flow.FlowActivity
 import vtsen.hashnode.dev.asyncflowdemo.ui.livedata.LiveDataActivity
-import vtsen.hashnode.dev.asyncflowdemo.ui.theme.AsyncFlowDemoAppTheme
+import vtsen.hashnode.dev.asyncflowdemo.ui.statesharedflow.StateSharedFlowActivity
 
 @Composable
 fun MainScreen() {
@@ -37,6 +37,14 @@ fun MainScreen() {
             )
         }) {
             Text(text = "Channel Experiment")
+        }
+
+        Button(onClick = {
+            context.startActivity(
+                Intent(context, StateSharedFlowActivity::class.java)
+            )
+        }) {
+            Text(text = "State & Shared Flow Experiment")
         }
     }
 }

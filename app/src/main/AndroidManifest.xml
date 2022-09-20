@@ -23,6 +23,8 @@
 
         <activity android:name=".ui.channel.ChannelActivity" />
 
+        <activity android:name=".ui.statesharedflow.StateSharedFlowActivity" />
+
         <activity
             android:name=".ui.common.TransparentActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
