@@ -44,7 +44,7 @@ fun MainScreen() {
                 Intent(context, SharedStateFlowActivity::class.java)
             )
         }) {
-            Text(text = "State & Shared Flow Experiment")
+            Text(text = "Shared & State Flow Experiment")
         }
     }
 }

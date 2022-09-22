@@ -71,7 +71,7 @@ class SharedStateFlowViewModel: ViewModel() {
     }
 
     /* state flow (hot flow) - data holder - from state in (started eagerly) */
-    private var _stateFlowFromStateIn: StateFlow<Int>? = null
+    private var _stateFlowFromStateIn: StateFlow<Int?>? = null
     val stateFlowFromStateIn
         get() = _stateFlowFromStateIn
 
@@ -83,11 +83,11 @@ class SharedStateFlowViewModel: ViewModel() {
         _stateFlowFromStateIn = flow.stateIn(
             scope = viewModelScope,
             started = SharingStarted.Eagerly,
-            initialValue = -1)
+            initialValue = null)
     }
 
     /* state flow (hot flow) - data holder - from state in (started while subscribed) */
-    private var _stateFlowFromStateInWhileSubcribe: StateFlow<Int>? = null
+    private var _stateFlowFromStateInWhileSubcribe: StateFlow<Int?>? = null
     val stateFlowFromStateInWhileSubcribe
         get() = _stateFlowFromStateInWhileSubcribe
 
@@ -99,6 +99,6 @@ class SharedStateFlowViewModel: ViewModel() {
         _stateFlowFromStateInWhileSubcribe = flow.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
-            initialValue = -1)
+            initialValue = null)
     }
 }

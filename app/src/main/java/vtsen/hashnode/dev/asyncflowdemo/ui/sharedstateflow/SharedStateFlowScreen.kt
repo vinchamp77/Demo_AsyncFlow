@@ -135,8 +135,6 @@ fun SharedStateFlowScreen() {
             Text(text = "[EmitSharedFlow] - Stop")
         }
 
-        Divider(thickness = 3.dp)
-
         Button(onClick = {
             startCollectSharedFlow = true
         }) {
@@ -154,13 +152,13 @@ fun SharedStateFlowScreen() {
         Button(onClick = {
             viewModel.collectFlowToStateFlow()
         }) {
-            Text(text = "[CollectFlowToStateFlow] - Start")
+            Text(text = "[ConvertStateFlow] - Start")
         }
 
         Button(onClick = {
             viewModel.stopCollectFlowToStateFlow()
         }) {
-            Text(text = "[CollectFlowToStateFlow] - Stop")
+            Text(text = "[ConvertStateFlow] - Stop")
         }
 
         Button(onClick = {
@@ -180,19 +178,19 @@ fun SharedStateFlowScreen() {
         Button(onClick = {
             viewModel.convertToSharedFlowUsingShareIn()
         }) {
-            Text(text = "[ConvertToSharedFlowUsingShareIn] - Start")
+            Text(text = "[ConvertSharedFlow - ShareIn] - Start")
         }
 
         Button(onClick = {
             startCollectSharedFlowFromShareIn = true
         }) {
-            Text(text = "[CollectSharedFlowFromShareIn] - Start")
+            Text(text = "[CollectSharedFlow - ShareIn] - Start")
         }
 
         Button(onClick = {
             startCollectSharedFlowFromShareIn = false
         }) {
-            Text(text = "[CollectSharedFlowFromShareIn] - Stop")
+            Text(text = "[CollectSharedFlow - ShareIn] - Stop")
         }
 
         Divider(thickness = 3.dp)
@@ -200,19 +198,19 @@ fun SharedStateFlowScreen() {
         Button(onClick = {
             viewModel.convertToStateFlowUsingStateIn()
         }) {
-            Text(text = "[ConvertToStateFlowUsingStateIn] - Start")
+            Text(text = "[ConvertStateFlow - StateIn] - Start")
         }
 
         Button(onClick = {
             startCollectStateFlowFromStateIn = true
         }) {
-            Text(text = "[CollectStateFlowFromStateIn] - Start")
+            Text(text = "[CollectStateFlow - StateIn] - Start")
         }
 
         Button(onClick = {
             startCollectStateFlowFromStateIn = false
         }) {
-            Text(text = "[CollectStateFlowFromStateIn] - Stop")
+            Text(text = "[CollectStateFlow - StateIn] - Stop")
         }
 
         Divider(thickness = 3.dp)
@@ -220,19 +218,19 @@ fun SharedStateFlowScreen() {
         Button(onClick = {
             viewModel.convertToStateFlowUsingStateInWhileSubcribe()
         }) {
-            Text(text = "[ConvertToStateFlowUsingStateInWhileSubcribe] - Start")
+            Text(text = "[ConvertStateFlow - StateInWhileSubcribe] - Start")
         }
 
         Button(onClick = {
             startCollectStateFlowFromStateInWhileSubcribe = true
         }) {
-            Text(text = "[CollectStateFlowFromStateInWhileSubcribe] - Start")
+            Text(text = "[CollectSateFlow - StateInWhileSubcribe] - Start")
         }
 
         Button(onClick = {
             startCollectStateFlowFromStateInWhileSubcribe = false
         }) {
-            Text(text = "[CollectStateFlowFromStateInWhileSubcribe] - Stop")
+            Text(text = "[CollectStateFlow - StateInWhileSubcribe] - Stop")
         }
     }
 }
