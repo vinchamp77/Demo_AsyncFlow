@@ -29,8 +29,7 @@ class StateSharedFlowViewModel: ViewModel() {
     fun emitSharedFlow() {
         stopEmitSharedFlow()
         job = viewModelScope.launch {
-            repeat(10000) { value ->
-                delay(1000)
+            flow.collect { value ->
                 Log.d(tag, "[SharedFlow]: emitting $value")
                 _sharedFlow.emit(value)
             }
@@ -54,4 +53,52 @@ class StateSharedFlowViewModel: ViewModel() {
     }
 
     fun stopCollectFlowToStateFlow() = job?.cancel()
+
+    /* shared flow (hot flow) - from share in */
+    private var _sharedFlowFromShareIn :SharedFlow<Int>? = null
+    val sharedFlowFromShareIn
+        get() = _sharedFlowFromShareIn
+
+    fun convertToSharedFlowUsingShareIn() {
+
+        if(_sharedFlowFromShareIn != null) return
+
+        // calling this multiple times creates multiple cold flow streams, thus leaking
+        _sharedFlowFromShareIn = flow.shareIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly
+        )
+    }
+
+    /* state flow (hot flow) - data holder - from state in (started eagerly) */
+    private var _stateFlowFromStateIn: StateFlow<Int>? = null
+    val stateFlowFromStateIn
+        get() = _stateFlowFromStateIn
+
+    fun convertToStateFlowUsingStateIn() {
+
+        if(_stateFlowFromStateIn != null) return
+
+        // calling this multiple times creates multiple cold flow streams, thus leaking
+        _stateFlowFromStateIn = flow.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = -1)
+    }
+
+    /* state flow (hot flow) - data holder - from state in (started while subscribed) */
+    private var _stateFlowFromStateInWhileSubcribe: StateFlow<Int>? = null
+    val stateFlowFromStateInWhileSubcribe
+        get() = _stateFlowFromStateInWhileSubcribe
+
+    fun convertToStateFlowUsingStateInWhileSubcribe() {
+
+        if(_stateFlowFromStateInWhileSubcribe != null) return
+
+        // calling this multiple times creates multiple cold flow streams, thus leaking
+        _stateFlowFromStateInWhileSubcribe = flow.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = -1)
+    }
 }

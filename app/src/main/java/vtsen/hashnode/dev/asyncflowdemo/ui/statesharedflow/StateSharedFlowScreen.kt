@@ -19,6 +19,7 @@ fun StateSharedFlowScreen() {
     val viewModel: StateSharedFlowViewModel = viewModel()
     val lifeCycle = LocalLifecycleOwner.current.lifecycle
 
+    /* compose state - data holder */
     var composeStateValue by remember { mutableStateOf<Int?>(null) }
 
     /* collect flow (cold flow) */
@@ -54,6 +55,45 @@ fun StateSharedFlowScreen() {
             lifeCycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
                 viewModel.stateFlow.collect {
                     Log.d(tag, "[CollectSharedFlow]: Assigning $it to composeStateValue")
+                    composeStateValue = it
+                }
+            }
+        }
+    }
+
+    /* collect shared flow (hot flow) - converted from share in */
+    var startCollectSharedFlowFromShareIn by remember { mutableStateOf(false)}
+    if(startCollectSharedFlowFromShareIn) {
+        LaunchedEffect(true) {
+            lifeCycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
+                viewModel.sharedFlowFromShareIn?.collect {
+                    Log.d(tag, "[CollectSharedFlowFromShareIn]: Assigning $it to composeStateValue")
+                    composeStateValue = it
+                }
+            }
+        }
+    }
+
+    /* collect state flow (hot flow) - converted from state in */
+    var startCollectStateFlowFromStateIn by remember { mutableStateOf(false)}
+    if(startCollectStateFlowFromStateIn) {
+        LaunchedEffect(true) {
+            lifeCycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
+                viewModel.stateFlowFromStateIn?.collect {
+                    Log.d(tag, "[CollectStateFlowFromStateIn]: Assigning $it to composeStateValue")
+                    composeStateValue = it
+                }
+            }
+        }
+    }
+
+    /* collect state flow (hot flow) - converted from state in - while subscribed */
+    var startCollectStateFlowFromStateInWhileSubcribe by remember { mutableStateOf(false)}
+    if(startCollectStateFlowFromStateInWhileSubcribe) {
+        LaunchedEffect(true) {
+            lifeCycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
+                viewModel.stateFlowFromStateInWhileSubcribe?.collect {
+                    Log.d(tag, "[CollectStateFlowFromStateInWhileSubcribe]: Assigning $it to composeStateValue")
                     composeStateValue = it
                 }
             }
@@ -133,6 +173,66 @@ fun StateSharedFlowScreen() {
             startCollectStateFlow = false
         }) {
             Text(text = "[CollectStateFlow] - Stop")
+        }
+
+        Divider(thickness = 3.dp)
+
+        Button(onClick = {
+            viewModel.convertToSharedFlowUsingShareIn()
+        }) {
+            Text(text = "[ConvertToSharedFlowUsingShareIn] - Start")
+        }
+
+        Button(onClick = {
+            startCollectSharedFlowFromShareIn = true
+        }) {
+            Text(text = "[CollectSharedFlowFromShareIn] - Start")
+        }
+
+        Button(onClick = {
+            startCollectSharedFlowFromShareIn = false
+        }) {
+            Text(text = "[CollectSharedFlowFromShareIn] - Stop")
+        }
+
+        Divider(thickness = 3.dp)
+
+        Button(onClick = {
+            viewModel.convertToStateFlowUsingStateIn()
+        }) {
+            Text(text = "[ConvertToStateFlowUsingStateIn] - Start")
+        }
+
+        Button(onClick = {
+            startCollectStateFlowFromStateIn = true
+        }) {
+            Text(text = "[CollectStateFlowFromStateIn] - Start")
+        }
+
+        Button(onClick = {
+            startCollectStateFlowFromStateIn = false
+        }) {
+            Text(text = "[CollectStateFlowFromStateIn] - Stop")
+        }
+
+        Divider(thickness = 3.dp)
+
+        Button(onClick = {
+            viewModel.convertToStateFlowUsingStateInWhileSubcribe()
+        }) {
+            Text(text = "[ConvertToStateFlowUsingStateInWhileSubcribe] - Start")
+        }
+
+        Button(onClick = {
+            startCollectStateFlowFromStateInWhileSubcribe = true
+        }) {
+            Text(text = "[CollectStateFlowFromStateInWhileSubcribe] - Start")
+        }
+
+        Button(onClick = {
+            startCollectStateFlowFromStateInWhileSubcribe = false
+        }) {
+            Text(text = "[CollectStateFlowFromStateInWhileSubcribe] - Stop")
         }
     }
 }
