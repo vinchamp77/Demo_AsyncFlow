@@ -1,4 +1,4 @@
-package vtsen.hashnode.dev.asyncflowdemo.ui.statesharedflow
+package vtsen.hashnode.dev.asyncflowdemo.ui.sharedstateflow
 
 import android.os.Bundle
 import android.util.Log
@@ -8,13 +8,13 @@ import vtsen.hashnode.dev.asyncflowdemo.ui.common.CommonScreen
 import vtsen.hashnode.dev.asyncflowdemo.ui.common.tag
 import vtsen.hashnode.dev.asyncflowdemo.ui.theme.AsyncFlowDemoAppTheme
 
-class StateSharedFlowActivity : ComponentActivity() {
+class SharedStateFlowActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AsyncFlowDemoAppTheme(useSystemUIController = true) {
                 CommonScreen {
-                    StateSharedFlowScreen()
+                    SharedStateFlowScreen()
                 }
             }
         }

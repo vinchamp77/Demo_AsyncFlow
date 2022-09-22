@@ -1,4 +1,4 @@
-package vtsen.hashnode.dev.asyncflowdemo.ui.statesharedflow
+package vtsen.hashnode.dev.asyncflowdemo.ui.sharedstateflow
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import vtsen.hashnode.dev.asyncflowdemo.ui.common.tag
 
-class StateSharedFlowViewModel: ViewModel() {
+class SharedStateFlowViewModel: ViewModel() {
 
     private var job: Job? = null
 

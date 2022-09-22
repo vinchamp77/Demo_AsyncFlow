@@ -1,4 +1,4 @@
-package vtsen.hashnode.dev.asyncflowdemo.ui.statesharedflow
+package vtsen.hashnode.dev.asyncflowdemo.ui.sharedstateflow
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
@@ -15,8 +15,8 @@ import vtsen.hashnode.dev.asyncflowdemo.ui.common.TextWidget
 import vtsen.hashnode.dev.asyncflowdemo.ui.common.tag
 
 @Composable
-fun StateSharedFlowScreen() {
-    val viewModel: StateSharedFlowViewModel = viewModel()
+fun SharedStateFlowScreen() {
+    val viewModel: SharedStateFlowViewModel = viewModel()
     val lifeCycle = LocalLifecycleOwner.current.lifecycle
 
     /* compose state - data holder */

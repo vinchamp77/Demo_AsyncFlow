@@ -23,7 +23,7 @@
 
         <activity android:name=".ui.channel.ChannelActivity" />
 
-        <activity android:name=".ui.statesharedflow.StateSharedFlowActivity" />
+        <activity android:name=".ui.sharedstateflow.SharedStateFlowActivity" />
 
         <activity
             android:name=".ui.common.TransparentActivity"
