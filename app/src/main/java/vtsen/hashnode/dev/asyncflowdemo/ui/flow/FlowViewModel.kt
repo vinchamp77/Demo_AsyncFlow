@@ -61,33 +61,4 @@ class FlowViewModel: ViewModel() {
     fun cancelCollectFlow() {
         collectFlowJob?.cancel()
     }
-
-    /* data holder - state flow (hot flow) */
-    private val _stateFlow = MutableStateFlow<Int?>(null)
-    val stateFlow = _stateFlow.asStateFlow()
-
-    fun viewModelScopeCollectFlowToStateFlow() {
-        cancelCollectFlow()
-        collectFlowJob = viewModelScope.launch {
-            flow.collect { value ->
-                Log.d(tag, "[viewModelScope]: Assigning $value to _stateFlow.value")
-                _stateFlow.value = value
-            }
-        }
-    }
-
-    /* shared flow (hot flow) */
-    private val _sharedFlow = MutableSharedFlow<Int>()
-    val sharedFlow = _sharedFlow.asSharedFlow()
-
-    fun viewModelScopeCollectFlowToSharedFlow() {
-        cancelCollectFlow()
-        collectFlowJob = viewModelScope.launch {
-            flow.collect { value ->
-                Log.d(tag, "[viewModelScope]: Emitting $value to _sharedFlow")
-                _sharedFlow.emit(value)
-            }
-        }
-    }
-
 }

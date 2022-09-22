@@ -7,6 +7,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -47,7 +48,7 @@ fun LiveDataScreen() {
             tag = tag,
         )
 
-        Divider()
+        Divider(thickness = 3.dp)
 
         Button(onClick = {
             viewModel.streamLiveDataValue()
@@ -79,7 +80,7 @@ fun LiveDataScreen() {
             Text(text = "Cancel Streaming")
         }
 
-        Divider()
+        Divider(thickness = 3.dp)
 
         Button(onClick = {
             Log.d(tag, "[Manual Observer]: Start observing...")

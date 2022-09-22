@@ -15,6 +15,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun CommonScreen(content: @Composable () -> Unit) {
@@ -25,7 +26,7 @@ fun CommonScreen(content: @Composable () -> Unit) {
         if (showContent) {
             content()
 
-            Divider()
+            Divider(thickness = 3.dp)
 
             Button(onClick = {
                 Log.d(tag, "Simulate busy UI")

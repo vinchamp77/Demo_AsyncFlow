@@ -1,17 +1,17 @@
 package vtsen.hashnode.dev.asyncflowdemo.ui.statesharedflow
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.*
-import kotlinx.coroutines.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import vtsen.hashnode.dev.asyncflowdemo.ui.common.tag
 
 class StateSharedFlowViewModel: ViewModel() {
 
-    private var collectFlowJob: Job? = null
+    private var job: Job? = null
 
     /* flow (cold flow) */
     val flow: Flow<Int> = flow {
@@ -22,72 +22,36 @@ class StateSharedFlowViewModel: ViewModel() {
         }
     }
 
-    /* data holder - compose state */
-    private val _state: MutableState<Int?> = mutableStateOf(null)
-    val state: State<Int?> = _state
-
-    fun viewModelScopeCollectFlow() {
-        cancelCollectFlow()
-        collectFlowJob = viewModelScope.launch {
-            flow.collect { value ->
-                Log.d(tag, "[viewModelScope]: Assigning $value to _stateFlow.value")
-                _state.value = value
-            }
-        }
-    }
-
-    fun launchWhenStartedCollectFlow(lifeCycleScope: LifecycleCoroutineScope) {
-        cancelCollectFlow()
-        collectFlowJob = lifeCycleScope.launchWhenStarted {
-            flow.collect { value ->
-                Log.d(tag, "[launchWhenStarted]: Assigning $value to _state.value")
-                _state.value = value
-            }
-        }
-    }
-
-    fun repeatOnCycleStartedCollectFlow(lifeCycleScope: LifecycleCoroutineScope, lifeCycle: Lifecycle) {
-        cancelCollectFlow()
-        collectFlowJob = lifeCycleScope.launch {
-            lifeCycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                flow.collect { value ->
-                    Log.d(tag, "[repeatOnCycleStarted]: Assigning $value to _state.value")
-                    _state.value = value
-                }
-            }
-        }
-    }
-
-    fun cancelCollectFlow() {
-        collectFlowJob?.cancel()
-    }
-
-    /* data holder - state flow (hot flow) */
-    private val _stateFlow = MutableStateFlow<Int?>(null)
-    val stateFlow = _stateFlow.asStateFlow()
-
-    fun viewModelScopeCollectFlowToStateFlow() {
-        cancelCollectFlow()
-        collectFlowJob = viewModelScope.launch {
-            flow.collect { value ->
-                Log.d(tag, "[viewModelScope]: Assigning $value to _stateFlow.value")
-                _stateFlow.value = value
-            }
-        }
-    }
-
     /* shared flow (hot flow) */
     private val _sharedFlow = MutableSharedFlow<Int>()
     val sharedFlow = _sharedFlow.asSharedFlow()
 
-    fun viewModelScopeCollectFlowToSharedFlow() {
-        cancelCollectFlow()
-        collectFlowJob = viewModelScope.launch {
-            flow.collect { value ->
-                Log.d(tag, "[viewModelScope]: Emitting $value to _sharedFlow")
+    fun emitSharedFlow() {
+        stopEmitSharedFlow()
+        job = viewModelScope.launch {
+            repeat(10000) { value ->
+                delay(1000)
+                Log.d(tag, "[SharedFlow]: emitting $value")
                 _sharedFlow.emit(value)
             }
         }
     }
 
+    fun stopEmitSharedFlow() = job?.cancel()
+
+    /* state flow (hot flow) - data holder */
+    private val _stateFlow = MutableStateFlow<Int?>(null)
+    val stateFlow = _stateFlow.asStateFlow()
+
+    fun collectFlowToStateFlow() {
+        stopCollectFlowToStateFlow()
+        job = viewModelScope.launch {
+            flow.collect { value ->
+                Log.d(tag, "[StateFlow]: Assigning $value to _stateFlow.value")
+                _stateFlow.value = value
+            }
+        }
+    }
+
+    fun stopCollectFlowToStateFlow() = job?.cancel()
 }

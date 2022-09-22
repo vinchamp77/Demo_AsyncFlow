@@ -5,6 +5,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import vtsen.hashnode.dev.asyncflowdemo.ui.common.TextWidget
 import vtsen.hashnode.dev.asyncflowdemo.ui.common.tag
@@ -26,7 +27,7 @@ fun ChannelScreen() {
             tag = tag,
         )
 
-        Divider()
+        Divider(thickness = 3.dp)
 
         Button(onClick = {
             viewModel.channelSend()
@@ -40,7 +41,7 @@ fun ChannelScreen() {
             Text(text = "Cancel Channel Send")
         }
 
-        Divider()
+        Divider(thickness = 3.dp)
 
         Button(onClick = {
             viewModel.channelReceive()
@@ -54,7 +55,7 @@ fun ChannelScreen() {
             Text(text = "Cancel Channel Receive")
         }
 
-        Divider()
+        Divider(thickness = 3.dp)
 
         Button(onClick = {
             viewModel.channelAnotherReceive()
