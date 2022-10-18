@@ -48,6 +48,7 @@ fun SharedStateFlowScreen() {
         }
     }
 
+
     /* collect state flow (hot flow) */
     var startCollectStateFlow by remember { mutableStateOf(false)}
     if(startCollectStateFlow) {
@@ -59,7 +60,14 @@ fun SharedStateFlowScreen() {
                 }
             }
         }
+
+        /* Using collectAsStateWithLifecycle() as an alternative
+        val stateFlowValue by viewModel.stateFlow.collectAsStateWithLifecycle()
+        composeStateValue  = stateFlowValue
+       */
     }
+
+
 
     /* collect shared flow (hot flow) - converted from share in */
     var startCollectSharedFlowFromShareIn by remember { mutableStateOf(false)}
