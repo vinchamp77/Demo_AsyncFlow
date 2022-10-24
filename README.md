@@ -6,6 +6,8 @@ Simple Android app to demonstrate asynchroous flow in Kotlin & Jetpack Compose
 
 ## Tech Stack
 - LiveData
+- Flow and Channel
+- StateFlow and SharedFlow
 
 ## Articles
 - [Part 1 - Exploring Android LiveData Usages and Behaviors](https://vtsen.hashnode.dev/exploring-android-livedata-usages-and-behaviors)
