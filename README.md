@@ -5,6 +5,7 @@ Simple Android app to demonstrate asynchroous flow in Kotlin & Jetpack Compose
 - Android Studio Dolphin or later
 
 ## Tech Stack
+- Jetpack Compose
 - LiveData
 - Flow and Channel
 - StateFlow and SharedFlow
