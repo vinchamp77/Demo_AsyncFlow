@@ -224,21 +224,21 @@ fun SharedStateFlowScreen() {
         Divider(thickness = 3.dp)
 
         Button(onClick = {
-            viewModel.convertToStateFlowUsingStateInWhileSubcribe()
+            viewModel.convertToStateFlowUsingStateInWhileSubscribe()
         }) {
-            Text(text = "[ConvertStateFlow - StateInWhileSubcribe] - Start")
+            Text(text = "[ConvertStateFlow - StateInWhileSubscribe] - Start")
         }
 
         Button(onClick = {
             startCollectStateFlowFromStateInWhileSubcribe = true
         }) {
-            Text(text = "[CollectSateFlow - StateInWhileSubcribe] - Start")
+            Text(text = "[CollectSateFlow - StateInWhileSubscribe] - Start")
         }
 
         Button(onClick = {
             startCollectStateFlowFromStateInWhileSubcribe = false
         }) {
-            Text(text = "[CollectStateFlow - StateInWhileSubcribe] - Stop")
+            Text(text = "[CollectStateFlow - StateInWhileSubscribe] - Stop")
         }
     }
 }

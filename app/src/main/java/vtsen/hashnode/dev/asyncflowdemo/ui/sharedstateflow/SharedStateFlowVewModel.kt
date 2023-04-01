@@ -91,7 +91,7 @@ class SharedStateFlowViewModel: ViewModel() {
     val stateFlowFromStateInWhileSubcribe
         get() = _stateFlowFromStateInWhileSubcribe
 
-    fun convertToStateFlowUsingStateInWhileSubcribe() {
+    fun convertToStateFlowUsingStateInWhileSubscribe() {
 
         if(_stateFlowFromStateInWhileSubcribe != null) return
 
