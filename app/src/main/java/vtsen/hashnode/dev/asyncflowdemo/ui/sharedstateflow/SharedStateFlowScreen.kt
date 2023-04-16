@@ -2,10 +2,13 @@ package vtsen.hashnode.dev.asyncflowdemo.ui.sharedstateflow
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -229,16 +232,22 @@ fun SharedStateFlowScreen() {
             Text(text = "[ConvertStateFlow - StateInWhileSubscribe] - Start")
         }
 
+        Spacer(modifier = Modifier.padding(3.dp))
+
         Button(onClick = {
             startCollectStateFlowFromStateInWhileSubcribe = true
         }) {
             Text(text = "[CollectSateFlow - StateInWhileSubscribe] - Start")
         }
 
+        Spacer(modifier = Modifier.padding(3.dp))
+
         Button(onClick = {
             startCollectStateFlowFromStateInWhileSubcribe = false
         }) {
             Text(text = "[CollectStateFlow - StateInWhileSubscribe] - Stop")
         }
+
+        Spacer(modifier = Modifier.padding(3.dp))
     }
 }
