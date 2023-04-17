@@ -29,6 +29,8 @@
             android:name=".ui.common.TransparentActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             />
+
+        <activity android:name=".ui.combinemergezipflow.CombineMergeZipFlowActivity" />
     </application>
 
 </manifest>

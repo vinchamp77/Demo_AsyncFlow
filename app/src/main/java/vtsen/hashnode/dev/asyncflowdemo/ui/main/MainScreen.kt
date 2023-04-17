@@ -7,6 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import vtsen.hashnode.dev.asyncflowdemo.ui.channel.ChannelActivity
+import vtsen.hashnode.dev.asyncflowdemo.ui.combinemergezipflow.CombineMergeZipFlowActivity
 import vtsen.hashnode.dev.asyncflowdemo.ui.flow.FlowActivity
 import vtsen.hashnode.dev.asyncflowdemo.ui.livedata.LiveDataActivity
 import vtsen.hashnode.dev.asyncflowdemo.ui.sharedstateflow.SharedStateFlowActivity
@@ -45,6 +46,14 @@ fun MainScreen() {
             )
         }) {
             Text(text = "Shared & State Flow Experiment")
+        }
+
+        Button(onClick = {
+            context.startActivity(
+                Intent(context, CombineMergeZipFlowActivity::class.java)
+            )
+        }) {
+            Text(text = "Combine,Merge & Zip Flow Experiment")
         }
     }
 }
