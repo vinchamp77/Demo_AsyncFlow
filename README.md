@@ -2,7 +2,7 @@
 Simple Android app to demonstrate asynchronous flow in Kotlin & Jetpack Compose
 
 ## Requirements
-- Android Studio Dolphin or later
+- Android Studio Flamingo or later
 
 ## Tech Stack
 - Jetpack Compose
