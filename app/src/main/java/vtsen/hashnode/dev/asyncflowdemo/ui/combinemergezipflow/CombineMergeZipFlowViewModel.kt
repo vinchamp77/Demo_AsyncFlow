@@ -20,11 +20,18 @@ class CombineMergeZipFlowViewModel: ViewModel() {
         }
     }
 
-    private val flow2: Flow<Int> = flow {
-        repeat(10000) { value ->
+
+    private val flow2: Flow<Char> = flow {
+        var value = 'A'
+        while(true) {
             delay(2000)
             Log.d(tag, "[Flow2]: emitting $value")
             emit(value)
+            if (value == 'Z') {
+                value = 'A'
+            } else {
+                value += 1
+            }
         }
     }
 
