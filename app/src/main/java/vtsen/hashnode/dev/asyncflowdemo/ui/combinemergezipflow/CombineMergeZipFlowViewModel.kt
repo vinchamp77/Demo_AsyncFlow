@@ -35,15 +35,17 @@ class CombineMergeZipFlowViewModel: ViewModel() {
         }
     }
 
-    val combineFlow = flow1.combine(flow2) { flow1value,flow2value  ->
-        val newValue = "${flow1value}_${flow2value}"
-        newValue
+    val combineFlow = flow1.combine(flow2) { flow1Value,flow2Value  ->
+        "${flow1Value}_${flow2Value}"
     }
+
+//    val combineFlow = combine(flow1, flow2) { flow1Value, flow2Value ->
+//        "${flow1Value}_${flow2Value}"
+//    }
 
     val mergeFlow = merge(flow1, flow2)
 
     val zipFlow = flow1.zip(flow2) { flow1value,flow2value  ->
-        val newValue = "${flow1value}_${flow2value}"
-        newValue
+        "${flow1value}_${flow2value}"
     }
 }
