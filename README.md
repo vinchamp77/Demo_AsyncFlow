@@ -15,3 +15,4 @@ Simple Android app to demonstrate asynchronous flow in Kotlin & Jetpack Compose
 - [Part 2 - Introduction to Kotlin Flows and Channels](https://vtsen.hashnode.dev/introduction-to-kotlin-flows-and-channels)
 - [Part 3 - Exploring Different Ways to Collect Kotlin Flow](https://vtsen.hashnode.dev/exploring-different-ways-to-collect-kotlin-flow)
 - [Part 4 - Convert Flow to SharedFlow and StateFlow](https://vtsen.hashnode.dev/convert-flow-to-sharedflow-and-stateflow)
+- [Part 5 - Flow, SharedFlow, StateFlow Class Diagram](https://vtsen.hashnode.dev/flow-sharedflow-stateflow-class-diagram)
